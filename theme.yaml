@@ -30,7 +30,7 @@ spec:
         description: 面向社团介绍、加入我们、联系方式的宽版页面。
         screenshot:
         file: page.html
-  version: 0.1.11
+  version: 0.1.12
   requires: 2.15.0
   license:
     - name: MIT
