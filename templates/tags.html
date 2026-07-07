@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="'标签 - ' + ${site.title}">标签 - ZJUT Dev</title>
+  <th:block th:replace="~{modules/head :: headAssets}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{modules/header :: siteHeader}"></th:block>
+<main class="archive" th:with="tagList=${tagFinder.listAll()}">
+  <section class="archive-hero">
+    <p class="eyebrow">Tags</p>
+    <h1>标签</h1>
+  </section>
+  <section class="section">
+    <div class="tag-cloud">
+      <a th:each="tag : ${tagList}" th:href="${tag.status.permalink}" th:text="${tag.spec.displayName}">Unity</a>
+    </div>
+  </section>
+</main>
+<th:block th:replace="~{modules/footer :: siteFooter}"></th:block>
+<script th:src="@{/assets/js/main.js?v={version}(version=${theme.spec.version})}"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${category.spec.displayName} + ' - ' + ${site.title}">分类 - ZJUT Dev</title>
+  <th:block th:replace="~{modules/head :: headAssets}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{modules/header :: siteHeader}"></th:block>
+
+<main class="archive"
+      th:with="isGame=${category.metadata.name == theme.config.home.game_category || category.spec.displayName == '作品展示'},
+               isActivity=${category.metadata.name == theme.config.home.activity_category || category.spec.displayName == '最近活动'}">
+  <section class="archive-hero">
+    <p class="eyebrow" th:text="${isGame ? 'Games' : (isActivity ? 'Activities' : 'Category')}">Games</p>
+    <h1 th:text="${category.spec.displayName}">作品展示</h1>
+    <p th:text="${!#strings.isEmpty(category.spec.description) ? category.spec.description : (isGame ? '社团成员的游戏作品、原型和项目记录。' : (isActivity ? '分享会、Game Jam、招新和活动回顾。' : '社团内容归档。'))}">分类描述</p>
+  </section>
+
+  <section class="section" th:if="${isGame}">
+    <div class="game-grid game-grid--archive">
+      <th:block th:each="post : ${posts.items}">
+        <th:block th:replace="~{modules/game-card :: card(post=${post})}"></th:block>
+      </th:block>
+    </div>
+  </section>
+
+  <section class="section" th:if="${isActivity}">
+    <div class="timeline">
+      <article class="timeline-item" th:each="post : ${posts.items}">
+        <a th:href="${post.status.permalink}">
+          <img th:src="${!#strings.isEmpty(post.spec.cover) ? post.spec.cover : '/assets/images/default-cover.png'}"
+               data-fallback="/assets/images/default-cover.png"
+               th:alt="${post.spec.title}" loading="lazy" />
+          <div>
+            <time th:text="${#temporals.format(post.spec.publishTime, 'yyyy.MM.dd')}">2026.06.14</time>
+            <h2 th:text="${post.spec.title}">活动标题</h2>
+            <p th:text="${post.status.excerpt}">活动摘要</p>
+          </div>
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" th:if="${!isGame && !isActivity}">
+    <div class="article-list">
+      <article class="article-card" th:each="post : ${posts.items}">
+        <a th:href="${post.status.permalink}">
+          <img th:src="${!#strings.isEmpty(post.spec.cover) ? post.spec.cover : '/assets/images/default-cover.png'}"
+               data-fallback="/assets/images/default-cover.png"
+               th:alt="${post.spec.title}" loading="lazy" />
+          <div>
+            <time th:text="${#temporals.format(post.spec.publishTime, 'yyyy.MM.dd')}">2026.06.14</time>
+            <h2 th:text="${post.spec.title}">文章标题</h2>
+            <p th:text="${post.status.excerpt}">文章摘要</p>
+          </div>
+        </a>
+      </article>
+    </div>
+  </section>
+
+  <nav class="pagination" th:if="${posts.hasPrevious() || posts.hasNext()}">
+    <a th:if="${posts.hasPrevious()}" th:href="@{${posts.prevUrl}}">上一页</a>
+    <span th:text="${posts.page} + ' / ' + ${posts.totalPages}">1 / 1</span>
+    <a th:if="${posts.hasNext()}" th:href="@{${posts.nextUrl}}">下一页</a>
+  </nav>
+</main>
+
+<th:block th:replace="~{modules/footer :: siteFooter}"></th:block>
+<script th:src="@{/assets/js/main.js?v={version}(version=${theme.spec.version})}"></script>
+</body>
+</html>

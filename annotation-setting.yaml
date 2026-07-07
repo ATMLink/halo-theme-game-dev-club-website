@@ -1,0 +1,83 @@
+apiVersion: v1alpha1
+kind: AnnotationSetting
+metadata:
+  name: zjutdev-game-post-fields
+spec:
+  targetRef:
+    group: content.halo.run
+    kind: Post
+  formSchema:
+    - $formkit: text
+      name: "zjutdev.games/engine"
+      label: 游戏引擎
+      placeholder: "Unity / Godot / Unreal / WebGL"
+    - $formkit: text
+      name: "zjutdev.games/genre"
+      label: 游戏类型
+      placeholder: "平台跳跃 / 解谜 / 塔防 / 动作 / 剧情"
+    - $formkit: text
+      name: "zjutdev.games/platform"
+      label: 运行平台
+      placeholder: "Windows / Web / Android"
+    - $formkit: text
+      name: "zjutdev.games/dev-cycle"
+      label: 开发周期
+      placeholder: "2026.06 / 48h Game Jam"
+    - $formkit: text
+      name: "zjutdev.games/team"
+      label: 团队名称
+      placeholder: "瞌睡虫工作室"
+    - $formkit: textarea
+      name: "zjutdev.games/members"
+      label: 团队成员
+      placeholder: "程序 A，美术 B，策划 C，音乐 D"
+    - $formkit: textarea
+      name: "zjutdev.games/description"
+      label: 简介
+      placeholder: "用于较短的游戏说明，会显示在详情页标题下方。正文仍可继续编辑更完整内容。"
+    - $formkit: attachment
+      name: "zjutdev.games/screenshot-1"
+      label: 作品截图 1
+      accepts:
+        - "image/*"
+    - $formkit: attachment
+      name: "zjutdev.games/screenshot-2"
+      label: 作品截图 2
+      accepts:
+        - "image/*"
+    - $formkit: attachment
+      name: "zjutdev.games/screenshot-3"
+      label: 作品截图 3
+      accepts:
+        - "image/*"
+    - $formkit: attachment
+      name: "zjutdev.games/screenshot-4"
+      label: 作品截图 4
+      accepts:
+        - "image/*"
+    - $formkit: attachment
+      name: "zjutdev.games/screenshot-5"
+      label: 作品截图 5
+      accepts:
+        - "image/*"
+    - $formkit: attachment
+      name: "zjutdev.games/screenshot-6"
+      label: 作品截图 6
+      accepts:
+        - "image/*"
+    - $formkit: url
+      name: "zjutdev.games/download-url"
+      label: 下载链接
+      placeholder: "https://example.com/download"
+    - $formkit: text
+      name: "zjutdev.games/extract-code"
+      label: 提取码
+      placeholder: "xxxx"
+    - $formkit: url
+      name: "zjutdev.games/play-url"
+      label: 在线试玩链接
+      placeholder: "https://example.com/play"
+    - $formkit: url
+      name: "zjutdev.games/github-url"
+      label: GitHub 链接
+      placeholder: "https://github.com/zjutdev/example-game"

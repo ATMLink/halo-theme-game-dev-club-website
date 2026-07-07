@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${singlePage.spec.title} + ' - ' + ${site.title}">页面 - ZJUT Dev</title>
+  <th:block th:replace="~{modules/head :: headAssets}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{modules/header :: siteHeader}"></th:block>
+
+<main class="club-page">
+  <header class="archive-hero archive-hero--page">
+    <p class="eyebrow">ZJUT Dev</p>
+    <h1 th:text="${singlePage.spec.title}">社团介绍</h1>
+    <p th:text="${singlePage.status.excerpt}">一起做游戏、分享技术、展示作品。</p>
+  </header>
+
+  <section class="section page-feature"
+           th:if="${singlePage.spec.slug == 'about' || singlePage.spec.title == '社团介绍'}">
+    <div class="intro-card"><strong>我们是谁</strong><span>由开发、策划、美术、音乐和运营同学组成的游戏创作者社群。</span></div>
+    <div class="intro-card"><strong>我们做什么</strong><span>完成游戏原型、参加 Jam、组织分享会，并持续维护作品展示站。</span></div>
+    <div class="intro-card"><strong>我们需要谁</strong><span>愿意学习、愿意协作、愿意把想法做成可玩体验的人。</span></div>
+  </section>
+
+  <article class="article-content article-content--wide" th:utext="${singlePage.content.content}">
+    <h2>我们是谁</h2>
+    <p>社团介绍正文。</p>
+  </article>
+</main>
+
+<th:block th:replace="~{modules/footer :: siteFooter}"></th:block>
+<script th:src="@{/assets/js/main.js?v={version}(version=${theme.spec.version})}"></script>
+</body>
+</html>

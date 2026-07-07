@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="'浙江工业大学创游工坊 | ' + ${site.title}">浙江工业大学创游工坊 | ZJUT Dev</title>
+  <meta property="og:url" content="https://zjutdev.games/" />
+  <link rel="canonical" href="https://zjutdev.games/" />
+  <th:block th:replace="~{modules/head :: headAssets}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{modules/header :: siteHeader}"></th:block>
+
+<main th:with="gameCategoryName=${theme.config.home.game_category},
+               activityCategoryName=${theme.config.home.activity_category},
+               gameCategory=${!#strings.isEmpty(gameCategoryName) ? categoryFinder.getByName(gameCategoryName) : null},
+               activityCategory=${!#strings.isEmpty(activityCategoryName) ? categoryFinder.getByName(activityCategoryName) : null},
+               aboutPage=${!#strings.isEmpty(theme.config.pages.about_page) ? singlePageFinder.getByName(theme.config.pages.about_page) : null},
+               joinPage=${!#strings.isEmpty(theme.config.pages.join_page) ? singlePageFinder.getByName(theme.config.pages.join_page) : null},
+               gamePosts=${!#strings.isEmpty(gameCategoryName) ? postFinder.listByCategory(1, theme.config.home.home_game_size, gameCategoryName) : postFinder.list(1, theme.config.home.home_game_size)},
+               activityPosts=${!#strings.isEmpty(activityCategoryName) ? postFinder.listByCategory(1, 3, activityCategoryName) : postFinder.list(1, 3)}">
+  <section class="hero"
+           th:style="${!#strings.isEmpty(theme.config.basic.hero_background) ? 'background-image: linear-gradient(90deg, rgba(255,255,255,.82), rgba(255,255,255,.12)), url(' + theme.config.basic.hero_background + ')' : 'background-image: linear-gradient(90deg, rgba(255,255,255,.86), rgba(255,255,255,.08)), url(/assets/images/hero-default.png)'}">
+    <div class="hero__content">
+      <p class="eyebrow">浙江工业大学创游工坊 · ZJUT Game Dev Community</p>
+      <h1 th:text="${theme.config.basic.hero_title}">浙江工业大学创游工坊 / ZJUT Dev</h1>
+      <p class="hero__subtitle" th:text="${theme.config.basic.hero_subtitle}">浙江工业大学游戏开发与创作者社群</p>
+      <p class="hero__desc" th:text="${theme.config.basic.hero_description}">我们一起做游戏、分享技术、参加 Game Jam、沉淀作品。</p>
+      <div class="hero__actions">
+        <a class="button button--primary" th:href="${gameCategory != null ? gameCategory.status.permalink : '/categories'}">看作品</a>
+        <a class="button button--ghost" th:href="${joinPage != null ? joinPage.status.permalink : '/'}">加入我们</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--intro">
+    <div class="section__head">
+      <p class="eyebrow">About</p>
+      <h2>社团介绍</h2>
+      <a class="text-link" th:href="${aboutPage != null ? aboutPage.status.permalink : '/'}">了解更多</a>
+    </div>
+    <div class="intro-grid">
+      <div class="intro-copy">
+        <p>创游工坊是面向游戏开发、互动叙事、视觉设计和技术分享的学生社群。我们把课程之外的想法做成可玩的作品，也把每次 Jam、分享会和项目复盘沉淀下来。</p>
+      </div>
+      <div class="intro-card"><strong>Game Jam</strong><span>快速原型、主题创作、组队协作</span></div>
+      <div class="intro-card"><strong>技术分享</strong><span>引擎、工具链、玩法系统和工程经验</span></div>
+      <div class="intro-card"><strong>作品展示</strong><span>展示成员项目，连接玩家反馈</span></div>
+    </div>
+  </section>
+
+  <section class="section section--carousel">
+    <div class="section__head">
+      <p class="eyebrow">Featured</p>
+      <h2>精选内容</h2>
+    </div>
+    <div class="feature-carousel js-carousel" th:with="slides=${theme.config.carousel.slides}">
+      <div class="feature-carousel__track">
+        <a class="feature-slide"
+           th:each="slide,iter : ${slides}"
+           th:classappend="${iter.index == 0 ? ' is-active' : ''}"
+           th:href="${!#strings.isEmpty(slide.url) ? slide.url : '#'}"
+           th:style="${!#strings.isEmpty(slide.image) ? 'background-image: linear-gradient(90deg, rgba(0,0,0,.48), rgba(0,0,0,.08)), url(' + slide.image + ')' : 'background-image: linear-gradient(90deg, rgba(0,0,0,.45), rgba(0,0,0,.05)), url(/assets/images/hero-default.png)'}">
+          <span class="feature-slide__label" th:text="${iter.index + 1} + ' / ' + ${#lists.size(slides)}">1 / 3</span>
+          <strong th:text="${!#strings.isEmpty(slide.title) ? slide.title : '创游工坊'}">创游工坊</strong>
+          <span th:text="${slide.description}">一起做游戏。</span>
+        </a>
+        <a class="feature-slide is-active"
+           th:if="${#lists.isEmpty(slides)}"
+           th:href="${gameCategory != null ? gameCategory.status.permalink : '#'}"
+           style="background-image: linear-gradient(90deg, rgba(0,0,0,.44), rgba(0,0,0,.05)), url(/assets/images/hero-default.png)">
+          <span class="feature-slide__label">1 / 1</span>
+          <strong>创游工坊 / ZJUT Dev</strong>
+          <span>在这里展示游戏作品、活动记录和开发故事。</span>
+        </a>
+      </div>
+      <button class="carousel-btn carousel-btn--prev js-carousel-prev" type="button" aria-label="上一张">‹</button>
+      <button class="carousel-btn carousel-btn--next js-carousel-next" type="button" aria-label="下一张">›</button>
+      <div class="carousel-dots js-carousel-dots" aria-label="轮播分页"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__head">
+      <p class="eyebrow">Games</p>
+      <h2>作品展示</h2>
+      <a class="text-link" th:href="${gameCategory != null ? gameCategory.status.permalink : '/categories'}">全部作品</a>
+    </div>
+    <div class="game-grid">
+      <th:block th:each="post : ${gamePosts.items}">
+        <th:block th:replace="~{modules/game-card :: card(post=${post})}"></th:block>
+      </th:block>
+    </div>
+    <div class="empty-state" th:if="${#lists.isEmpty(gamePosts.items)}">
+      <strong>还没有作品内容</strong>
+      <p>请在 Halo 后台创建“作品展示”分类，推荐 slug 为 <code>games</code>，发布作品文章后在主题设置中选择该分类。</p>
+    </div>
+  </section>
+
+  <section class="section section--activity">
+    <div class="section__head">
+      <p class="eyebrow">Activities</p>
+      <h2>最近活动</h2>
+      <a class="text-link" th:href="${activityCategory != null ? activityCategory.status.permalink : '/categories'}">查看更多</a>
+    </div>
+    <div class="activity-list">
+      <article class="activity-card" th:each="post : ${activityPosts.items}">
+        <a th:href="${post.status.permalink}">
+          <time th:text="${#temporals.format(post.spec.publishTime, 'yyyy.MM.dd')}">2026.06.14</time>
+          <strong th:text="${post.spec.title}">活动标题</strong>
+          <span th:text="${post.status.excerpt}">活动摘要</span>
+        </a>
+      </article>
+    </div>
+    <div class="empty-state" th:if="${#lists.isEmpty(activityPosts.items)}">
+      <strong>还没有活动内容</strong>
+      <p>请在 Halo 后台创建“最近活动”分类，推荐 slug 为 <code>activities</code>，发布活动文章后在主题设置中选择该分类。</p>
+    </div>
+  </section>
+</main>
+
+<th:block th:replace="~{modules/footer :: siteFooter}"></th:block>
+<script th:src="@{/assets/js/main.js?v={version}(version=${theme.spec.version})}"></script>
+</body>
+</html>

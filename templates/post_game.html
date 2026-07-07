@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${post.spec.title} + ' - ' + ${site.title}">作品详情 - ZJUT Dev</title>
+  <th:block th:replace="~{modules/head :: headAssets}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{modules/header :: siteHeader}"></th:block>
+
+<main>
+  <article class="detail"
+           th:with="engine=${#annotations.getOrDefault(post, 'zjutdev.games/engine', '')},
+                    genre=${#annotations.getOrDefault(post, 'zjutdev.games/genre', '')},
+                    platform=${#annotations.getOrDefault(post, 'zjutdev.games/platform', '')},
+                    devCycle=${#annotations.getOrDefault(post, 'zjutdev.games/dev-cycle', '')},
+                    team=${#annotations.getOrDefault(post, 'zjutdev.games/team', '')},
+                    members=${#annotations.getOrDefault(post, 'zjutdev.games/members', '')},
+                    gameDescription=${#annotations.getOrDefault(post, 'zjutdev.games/description', '')},
+                    downloadUrl=${#annotations.getOrDefault(post, 'zjutdev.games/download-url', '')},
+                    extractCode=${#annotations.getOrDefault(post, 'zjutdev.games/extract-code', '')},
+                    playUrl=${#annotations.getOrDefault(post, 'zjutdev.games/play-url', '')},
+                    githubUrl=${#annotations.getOrDefault(post, 'zjutdev.games/github-url', '')},
+                    screenshot1=${#annotations.getOrDefault(post, 'zjutdev.games/screenshot-1', '')},
+                    screenshot2=${#annotations.getOrDefault(post, 'zjutdev.games/screenshot-2', '')},
+                    screenshot3=${#annotations.getOrDefault(post, 'zjutdev.games/screenshot-3', '')},
+                    screenshot4=${#annotations.getOrDefault(post, 'zjutdev.games/screenshot-4', '')},
+                    screenshot5=${#annotations.getOrDefault(post, 'zjutdev.games/screenshot-5', '')},
+                    screenshot6=${#annotations.getOrDefault(post, 'zjutdev.games/screenshot-6', '')}">
+    <header class="detail-hero">
+      <div class="detail-hero__copy">
+        <p class="eyebrow">Game Detail</p>
+        <h1 th:text="${post.spec.title}">游戏名称</h1>
+        <p class="detail-hero__summary" th:if="${!#strings.isEmpty(gameDescription)}" th:text="${gameDescription}">游戏简介。</p>
+        <div class="tag-list" th:if="${!#lists.isEmpty(post.tags)}">
+          <a th:each="tag : ${post.tags}" th:href="${tag.status.permalink}" th:text="${tag.spec.displayName}">Unity</a>
+        </div>
+      </div>
+      <img class="detail-hero__cover"
+           th:src="${!#strings.isEmpty(post.spec.cover) ? post.spec.cover : '/assets/images/default-cover.png'}"
+           data-fallback="/assets/images/default-cover.png"
+           th:alt="${post.spec.title}" />
+    </header>
+
+    <section class="detail-gallery js-content-gallery"
+             th:data-cover="${!#strings.isEmpty(post.spec.cover) ? post.spec.cover : '/assets/images/default-cover.png'}"
+             th:data-screenshot-1="${screenshot1}"
+             th:data-screenshot-2="${screenshot2}"
+             th:data-screenshot-3="${screenshot3}"
+             th:data-screenshot-4="${screenshot4}"
+             th:data-screenshot-5="${screenshot5}"
+             th:data-screenshot-6="${screenshot6}"
+             data-fallback="/assets/images/default-cover.png"
+             data-content-target=".js-post-content">
+      <div class="detail-gallery__stage"></div>
+      <button class="gallery-btn gallery-btn--prev" type="button" aria-label="上一张">‹</button>
+      <button class="gallery-btn gallery-btn--next" type="button" aria-label="下一张">›</button>
+      <div class="detail-gallery__thumbs"></div>
+    </section>
+
+    <div class="detail-layout">
+      <aside class="detail-sidebar">
+        <div class="stat-row">
+          <span th:text="${post.stats.visit}">0</span>
+          <small>浏览</small>
+        </div>
+        <a class="button button--primary button--full"
+           th:if="${!#strings.isEmpty(downloadUrl)}"
+           th:href="${downloadUrl}"
+           target="_blank"
+           rel="noreferrer">下载</a>
+        <a class="button button--ghost button--full"
+           th:if="${!#strings.isEmpty(playUrl)}"
+           th:href="${playUrl}"
+           target="_blank"
+           rel="noreferrer">在线试玩</a>
+        <a class="button button--ghost button--full"
+           th:if="${!#strings.isEmpty(githubUrl)}"
+           th:href="${githubUrl}"
+           target="_blank"
+           rel="noreferrer">GitHub</a>
+      </aside>
+      <div class="detail-main">
+        <section class="detail-meta"
+                 th:if="${!#strings.isEmpty(engine) || !#strings.isEmpty(genre) || !#strings.isEmpty(platform) || !#strings.isEmpty(devCycle) || !#strings.isEmpty(team) || !#strings.isEmpty(members) || !#strings.isEmpty(extractCode)}">
+          <h2>基本信息</h2>
+          <dl>
+            <div th:if="${!#strings.isEmpty(engine)}"><dt>引擎</dt><dd th:text="${engine}">Unity</dd></div>
+            <div th:if="${!#strings.isEmpty(genre)}"><dt>类型</dt><dd th:text="${genre}">平台跳跃</dd></div>
+            <div th:if="${!#strings.isEmpty(platform)}"><dt>平台</dt><dd th:text="${platform}">Windows</dd></div>
+            <div th:if="${!#strings.isEmpty(devCycle)}"><dt>开发周期</dt><dd th:text="${devCycle}">2026.06</dd></div>
+            <div th:if="${!#strings.isEmpty(team)}"><dt>团队</dt><dd th:text="${team}">团队名称</dd></div>
+            <div th:if="${!#strings.isEmpty(members)}"><dt>成员</dt><dd th:text="${members}">成员列表</dd></div>
+            <div th:if="${!#strings.isEmpty(extractCode)}"><dt>提取码</dt><dd th:text="${extractCode}">xxxx</dd></div>
+          </dl>
+        </section>
+        <section class="detail-description" th:if="${!#strings.isEmpty(gameDescription)}">
+          <h2>简介</h2>
+          <p th:text="${gameDescription}">游戏简介。</p>
+        </section>
+        <div class="article-content js-post-content"
+             th:if="${!#strings.isEmpty(post.content.content)}"
+             th:utext="${post.content.content}">
+          <h2>介绍</h2>
+          <p>作品正文。</p>
+        </div>
+      </div>
+    </div>
+
+    <section class="section related"
+             th:if="${!#strings.isEmpty(theme.config.home.game_category)}"
+             th:with="relatedPosts=${postFinder.listByCategory(1, 4, theme.config.home.game_category)}">
+      <div class="section__head">
+        <p class="eyebrow">Related</p>
+        <h2>相关作品</h2>
+      </div>
+      <div class="game-grid game-grid--related">
+        <th:block th:each="item : ${relatedPosts.items}" th:if="${item.metadata.name != post.metadata.name}">
+          <th:block th:replace="~{modules/game-card :: card(post=${item})}"></th:block>
+        </th:block>
+      </div>
+    </section>
+
+    <th:block th:replace="~{modules/comments :: postComments(post=${post})}"></th:block>
+  </article>
+</main>
+
+<th:block th:replace="~{modules/footer :: siteFooter}"></th:block>
+<script th:src="@{/assets/js/main.js?v={version}(version=${theme.spec.version})}"></script>
+</body>
+</html>

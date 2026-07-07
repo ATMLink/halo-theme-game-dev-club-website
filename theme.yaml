@@ -1,0 +1,37 @@
+apiVersion: theme.halo.run/v1alpha1
+kind: Theme
+metadata:
+  name: halo-theme-zjutdev
+spec:
+  displayName: ZJUT Dev 创游工坊
+  author:
+    name: ZJUT Dev
+    website: https://github.com/zjutdev
+  description: 面向学生游戏开发社团的 Halo 2 作品展示主题。
+  logo: /themes/halo-theme-zjutdev/assets/images/favicon.png
+  homepage: https://github.com/zjutdev/halo-theme-zjutdev
+  repo: https://github.com/zjutdev/halo-theme-zjutdev.git
+  issues: https://github.com/zjutdev/halo-theme-zjutdev/issues
+  settingName: halo-theme-zjutdev-setting
+  configMapName: halo-theme-zjutdev-configMap
+  customTemplates:
+    post:
+      - name: 游戏作品详情
+        description: 将文章渲染为游戏作品详情页。
+        screenshot:
+        file: post_game.html
+    category:
+      - name: 作品展示网格
+        description: 将分类归档渲染为游戏作品卡片网格。
+        screenshot:
+        file: category_games.html
+    page:
+      - name: 社团介绍页面
+        description: 面向社团介绍、加入我们、联系方式的宽版页面。
+        screenshot:
+        file: page.html
+  version: 0.1.11
+  requires: 2.15.0
+  license:
+    - name: MIT
+      url: https://github.com/zjutdev/halo-theme-zjutdev/blob/main/LICENSE

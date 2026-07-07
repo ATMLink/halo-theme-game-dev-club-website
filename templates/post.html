@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${post.spec.title} + ' - ' + ${site.title}">作品详情 - ZJUT Dev</title>
+  <th:block th:replace="~{modules/head :: headAssets}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{modules/header :: siteHeader}"></th:block>
+
+<main th:with="isGame=${!#strings.isEmpty(theme.config.home.game_category) && #lists.contains(post.spec.categories, theme.config.home.game_category)}">
+  <article class="detail" th:if="${isGame}">
+    <header class="detail-hero">
+      <div class="detail-hero__copy">
+        <p class="eyebrow">Game Detail</p>
+        <h1 th:text="${post.spec.title}">游戏名称</h1>
+        <div class="tag-list" th:if="${!#lists.isEmpty(post.tags)}">
+          <a th:each="tag : ${post.tags}" th:href="${tag.status.permalink}" th:text="${tag.spec.displayName}">Unity</a>
+        </div>
+      </div>
+      <img class="detail-hero__cover"
+           th:src="${!#strings.isEmpty(post.spec.cover) ? post.spec.cover : '/assets/images/default-cover.png'}"
+           data-fallback="/assets/images/default-cover.png"
+           th:alt="${post.spec.title}" />
+    </header>
+
+    <section class="detail-gallery js-content-gallery"
+             th:data-cover="${!#strings.isEmpty(post.spec.cover) ? post.spec.cover : '/assets/images/default-cover.png'}"
+             data-fallback="/assets/images/default-cover.png"
+             data-content-target=".js-post-content">
+      <div class="detail-gallery__stage"></div>
+      <button class="gallery-btn gallery-btn--prev" type="button" aria-label="上一张">‹</button>
+      <button class="gallery-btn gallery-btn--next" type="button" aria-label="下一张">›</button>
+      <div class="detail-gallery__thumbs"></div>
+    </section>
+
+    <div class="detail-layout">
+      <aside class="detail-sidebar">
+        <div class="stat-row">
+          <span th:text="${post.stats.visit}">0</span>
+          <small>浏览</small>
+        </div>
+        <a class="button button--primary button--full" href="#download">下载 / 试玩</a>
+      </aside>
+      <div class="article-content js-post-content" th:utext="${post.content.content}">
+        <h2>介绍</h2>
+        <p>作品正文。</p>
+      </div>
+    </div>
+
+    <section class="section related"
+             th:if="${!#strings.isEmpty(theme.config.home.game_category)}"
+             th:with="relatedPosts=${postFinder.listByCategory(1, 4, theme.config.home.game_category)}">
+      <div class="section__head">
+        <p class="eyebrow">Related</p>
+        <h2>相关作品</h2>
+      </div>
+      <div class="game-grid game-grid--related">
+        <th:block th:each="item : ${relatedPosts.items}" th:if="${item.metadata.name != post.metadata.name}">
+          <th:block th:replace="~{modules/game-card :: card(post=${item})}"></th:block>
+        </th:block>
+      </div>
+    </section>
+    <th:block th:replace="~{modules/comments :: postComments(post=${post})}"></th:block>
+  </article>
+
+  <article class="post-article" th:if="${!isGame}">
+    <header class="post-hero">
+      <p class="eyebrow">Article</p>
+      <h1 th:text="${post.spec.title}">文章标题</h1>
+      <p th:text="${post.status.excerpt}">文章摘要。</p>
+      <time th:text="${#temporals.format(post.spec.publishTime, 'yyyy.MM.dd')}">2026.06.14</time>
+    </header>
+    <img class="post-cover"
+         th:if="${!#strings.isEmpty(post.spec.cover)}"
+         th:src="${post.spec.cover}"
+         data-fallback="/assets/images/default-cover.png"
+         th:alt="${post.spec.title}" />
+    <div class="article-content" th:utext="${post.content.content}"></div>
+    <th:block th:replace="~{modules/comments :: postComments(post=${post})}"></th:block>
+  </article>
+</main>
+
+<th:block th:replace="~{modules/footer :: siteFooter}"></th:block>
+<script th:src="@{/assets/js/main.js?v={version}(version=${theme.spec.version})}"></script>
+</body>
+</html>

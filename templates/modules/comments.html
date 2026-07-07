@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org" xmlns:halo="https://halo.run/theme">
+<body>
+<section class="comments-section" th:fragment="postComments(post)">
+  <div class="section__head">
+    <p class="eyebrow">Comments</p>
+    <h2>评论</h2>
+  </div>
+  <div th:if="${pluginFinder.available('PluginCommentWidget')}">
+    <halo:comment
+      group="content.halo.run"
+      kind="Post"
+      version="v1alpha1"
+      th:attr="name=${post.metadata.name}" />
+  </div>
+  <div class="empty-state" th:unless="${pluginFinder.available('PluginCommentWidget')}">
+    <strong>评论组件未启用</strong>
+    <p>请在 Halo 后台安装并启用“评论组件”插件，启用后这里会自动显示评论区。</p>
+  </div>
+</section>
+</body>
+</html>

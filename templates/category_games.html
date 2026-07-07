@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${category.spec.displayName} + ' - ' + ${site.title}">作品展示 - ZJUT Dev</title>
+  <th:block th:replace="~{modules/head :: headAssets}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{modules/header :: siteHeader}"></th:block>
+
+<main class="archive">
+  <section class="archive-hero">
+    <p class="eyebrow">Games</p>
+    <h1 th:text="${category.spec.displayName}">作品展示</h1>
+    <p th:text="${!#strings.isEmpty(category.spec.description) ? category.spec.description : '社团成员的游戏作品、原型和项目记录。'}">社团成员的游戏作品、原型和项目记录。</p>
+  </section>
+
+  <section class="section">
+    <div class="game-grid game-grid--archive">
+      <th:block th:each="post : ${posts.items}">
+        <th:block th:replace="~{modules/game-card :: card(post=${post})}"></th:block>
+      </th:block>
+    </div>
+    <div class="empty-state" th:if="${#lists.isEmpty(posts.items)}">
+      <strong>还没有作品内容</strong>
+      <p>在 Halo 后台发布文章，分类选择“作品展示”，封面图建议使用 16:9 游戏截图。</p>
+    </div>
+  </section>
+
+  <nav class="pagination" th:if="${posts.hasPrevious() || posts.hasNext()}">
+    <a th:if="${posts.hasPrevious()}" th:href="@{${posts.prevUrl}}">上一页</a>
+    <span th:text="${posts.page} + ' / ' + ${posts.totalPages}">1 / 1</span>
+    <a th:if="${posts.hasNext()}" th:href="@{${posts.nextUrl}}">下一页</a>
+  </nav>
+</main>
+
+<th:block th:replace="~{modules/footer :: siteFooter}"></th:block>
+<script th:src="@{/assets/js/main.js?v={version}(version=${theme.spec.version})}"></script>
+</body>
+</html>

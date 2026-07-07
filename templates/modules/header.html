@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<body>
+<header class="site-header" th:fragment="siteHeader">
+  <div class="site-header__inner"
+       th:with="gameCategory=${!#strings.isEmpty(theme.config.home.game_category) ? categoryFinder.getByName(theme.config.home.game_category) : null},
+                activityCategory=${!#strings.isEmpty(theme.config.home.activity_category) ? categoryFinder.getByName(theme.config.home.activity_category) : null},
+                aboutPage=${!#strings.isEmpty(theme.config.pages.about_page) ? singlePageFinder.getByName(theme.config.pages.about_page) : null},
+                joinPage=${!#strings.isEmpty(theme.config.pages.join_page) ? singlePageFinder.getByName(theme.config.pages.join_page) : null}">
+    <a class="brand" th:href="@{/}" aria-label="返回首页">
+      <img class="brand__logo"
+           th:if="${!#strings.isEmpty(theme.config.basic.logo) || !#strings.isEmpty(site.logo)}"
+           th:src="${!#strings.isEmpty(theme.config.basic.logo) ? theme.config.basic.logo : site.logo}"
+           alt="ZJUT Game Forge" />
+      <span class="brand__mark" th:if="${#strings.isEmpty(theme.config.basic.logo) && #strings.isEmpty(site.logo)}">ZD</span>
+      <span class="brand__text">ZJUT Game Forge</span>
+    </a>
+    <button class="nav-toggle js-nav-toggle" type="button" aria-label="打开导航" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="site-nav js-site-nav" aria-label="主导航">
+      <a th:href="@{/}">首页</a>
+      <a th:href="${aboutPage != null ? aboutPage.status.permalink : '/'}">社团介绍</a>
+      <a th:href="${activityCategory != null ? activityCategory.status.permalink : '/categories'}">最近活动</a>
+      <a th:href="${gameCategory != null ? gameCategory.status.permalink : '/categories'}">作品展示</a>
+      <a th:href="${joinPage != null ? joinPage.status.permalink : '/'}">加入我们</a>
+      <div class="nav-menu">
+        <a class="site-nav__cta" th:href="@{/}">登录</a>
+        <div class="nav-menu__panel">
+          <a th:href="@{/console}">控制台</a>
+          <a th:href="@{/logout}">退出登录</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+</body>
+</html>

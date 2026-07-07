@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="${tag.spec.displayName} + ' - ' + ${site.title}">标签 - ZJUT Dev</title>
+  <th:block th:replace="~{modules/head :: headAssets}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{modules/header :: siteHeader}"></th:block>
+<main class="archive">
+  <section class="archive-hero">
+    <p class="eyebrow">Tag</p>
+    <h1 th:text="${tag.spec.displayName}">标签</h1>
+  </section>
+  <section class="section">
+    <div class="game-grid game-grid--archive">
+      <th:block th:each="post : ${posts.items}">
+        <th:block th:replace="~{modules/game-card :: card(post=${post})}"></th:block>
+      </th:block>
+    </div>
+  </section>
+  <nav class="pagination" th:if="${posts.hasPrevious() || posts.hasNext()}">
+    <a th:if="${posts.hasPrevious()}" th:href="@{${posts.prevUrl}}">上一页</a>
+    <span th:text="${posts.page} + ' / ' + ${posts.totalPages}">1 / 1</span>
+    <a th:if="${posts.hasNext()}" th:href="@{${posts.nextUrl}}">下一页</a>
+  </nav>
+</main>
+<th:block th:replace="~{modules/footer :: siteFooter}"></th:block>
+<script th:src="@{/assets/js/main.js?v={version}(version=${theme.spec.version})}"></script>
+</body>
+</html>

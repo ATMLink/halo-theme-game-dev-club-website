@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="'分类 - ' + ${site.title}">分类 - ZJUT Dev</title>
+  <th:block th:replace="~{modules/head :: headAssets}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{modules/header :: siteHeader}"></th:block>
+<main class="archive" th:with="categoryList=${categoryFinder.listAll()}">
+  <section class="archive-hero">
+    <p class="eyebrow">Categories</p>
+    <h1>分类</h1>
+  </section>
+  <section class="section">
+    <div class="category-grid">
+      <a class="category-tile" th:each="category : ${categoryList}" th:href="${category.status.permalink}">
+        <strong th:text="${category.spec.displayName}">作品展示</strong>
+        <span th:text="${category.status.visiblePostCount} + ' 篇内容'">0 篇内容</span>
+      </a>
+    </div>
+  </section>
+</main>
+<th:block th:replace="~{modules/footer :: siteFooter}"></th:block>
+<script th:src="@{/assets/js/main.js?v={version}(version=${theme.spec.version})}"></script>
+</body>
+</html>

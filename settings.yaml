@@ -1,0 +1,133 @@
+apiVersion: v1alpha1
+kind: Setting
+metadata:
+  name: halo-theme-zjutdev-setting
+spec:
+  forms:
+    - group: basic
+      label: 基础设置
+      formSchema:
+        - $formkit: attachment
+          name: logo
+          label: 站点 Logo
+          accepts:
+            - "image/*"
+          value: ""
+        - $formkit: attachment
+          name: hero_background
+          label: 首页 Hero 背景图
+          accepts:
+            - "image/*"
+          value: ""
+        - $formkit: text
+          name: hero_title
+          label: 首页主标题
+          value: "浙江工业大学创游工坊 / ZJUT Dev"
+        - $formkit: text
+          name: hero_subtitle
+          label: 首页副标题
+          value: "浙江工业大学游戏开发与创作者社群"
+        - $formkit: textarea
+          name: hero_description
+          label: 首页介绍文案
+          value: "我们一起做游戏、分享技术、参加 Game Jam、沉淀作品。"
+        - $formkit: text
+          name: contact_email
+          label: 联系邮箱
+          value: "contact@zjutdev.games"
+        - $formkit: text
+          name: tech_email
+          label: 技术组邮箱
+          value: "tech@zjutdev.games"
+        - $formkit: text
+          name: github_url
+          label: GitHub 链接
+          value: ""
+        - $formkit: text
+          name: bilibili_url
+          label: B站链接
+          value: ""
+        - $formkit: text
+          name: group_url
+          label: QQ 群 / 飞书链接
+          value: ""
+    - group: pages
+      label: 导航页面
+      formSchema:
+        - $formkit: singlePageSelect
+          name: about_page
+          label: 社团介绍页面
+          value: ""
+        - $formkit: singlePageSelect
+          name: join_page
+          label: 加入我们页面
+          value: ""
+        - $formkit: singlePageSelect
+          name: contact_page
+          label: 联系我们页面（合作联系）
+          value: ""
+    - group: home
+      label: 首页内容
+      formSchema:
+        - $formkit: categorySelect
+          name: game_category
+          label: 作品展示分类
+          value: ""
+        - $formkit: categorySelect
+          name: activity_category
+          label: 最近活动分类
+          value: ""
+        - $formkit: number
+          name: home_game_size
+          label: 首页展示作品数量
+          value: 6
+          min: 2
+          max: 12
+        - $formkit: checkbox
+          name: show_tags
+          label: 显示标签
+          value: true
+        - $formkit: checkbox
+          name: show_excerpt
+          label: 显示摘要
+          value: true
+    - group: carousel
+      label: 首页轮播
+      formSchema:
+        - $formkit: repeater
+          name: slides
+          label: 轮播图
+          value: []
+          min: 0
+          max: 6
+          addLabel: 添加轮播
+          children:
+            - $formkit: attachment
+              name: image
+              label: 图片
+              accepts:
+                - "image/*"
+              value: ""
+            - $formkit: text
+              name: title
+              label: 标题
+              value: ""
+            - $formkit: textarea
+              name: description
+              label: 描述
+              value: ""
+            - $formkit: text
+              name: url
+              label: 跳转链接
+              value: ""
+    - group: footer
+      label: 页脚设置
+      formSchema:
+        - $formkit: text
+          name: copyright
+          label: 版权文本
+          value: "© 2026 ZJUT创游工坊"
+        - $formkit: text
+          name: icp
+          label: 备案号
+          value: ""

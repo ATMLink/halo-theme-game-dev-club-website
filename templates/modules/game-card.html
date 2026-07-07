@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<body>
+<article class="game-card" th:fragment="card(post)">
+  <a class="game-card__media" th:href="${post.status.permalink}">
+    <img th:src="${!#strings.isEmpty(post.spec.cover) ? post.spec.cover : '/assets/images/default-cover.png'}"
+         data-fallback="/assets/images/default-cover.png"
+         th:alt="${post.spec.title}" loading="lazy" />
+  </a>
+  <div class="game-card__body">
+    <a class="game-card__title" th:href="${post.status.permalink}" th:text="${post.spec.title}">游戏名称</a>
+    <p class="game-card__excerpt" th:if="${theme.config.home.show_excerpt}" th:text="${post.status.excerpt}">一句话简介。</p>
+    <div class="tag-list" th:if="${theme.config.home.show_tags && !#lists.isEmpty(post.tags)}">
+      <a th:each="tag : ${post.tags}" th:href="${tag.status.permalink}" th:text="${tag.spec.displayName}">Unity</a>
+    </div>
+  </div>
+</article>
+</body>
+</html>

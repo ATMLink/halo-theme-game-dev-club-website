@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<body>
+<th:block th:fragment="headAssets">
+  <meta name="description"
+        th:content="${!#strings.isEmpty(theme.config.basic.hero_description) ? '浙江工业大学创游工坊：' + theme.config.basic.hero_description : '浙江工业大学创游工坊是浙江工业大学游戏开发与创作者社群，展示作品、活动和开发记录。'}"
+        content="浙江工业大学创游工坊是浙江工业大学游戏开发与创作者社群，展示作品、活动和开发记录。" />
+  <meta name="keywords" content="浙江工业大学创游工坊,浙江工业大学,创游工坊,ZJUT Dev,ZJUT Game Forge,游戏开发社群,作品展示,Game Jam" />
+  <meta name="author" content="浙江工业大学创游工坊" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="浙江工业大学创游工坊" />
+  <meta property="og:title" th:content="'浙江工业大学创游工坊 | ' + ${site.title}" content="浙江工业大学创游工坊" />
+  <meta property="og:description"
+        th:content="${!#strings.isEmpty(theme.config.basic.hero_description) ? '浙江工业大学创游工坊：' + theme.config.basic.hero_description : '浙江工业大学创游工坊是浙江工业大学游戏开发与创作者社群，展示作品、活动和开发记录。'}"
+        content="浙江工业大学创游工坊是浙江工业大学游戏开发与创作者社群，展示作品、活动和开发记录。" />
+  <link rel="icon" type="image/png" th:href="@{/assets/images/favicon.png?v={version}(version=${theme.spec.version})}" />
+  <link rel="apple-touch-icon" th:href="@{/assets/images/favicon.png?v={version}(version=${theme.spec.version})}" />
+  <link rel="stylesheet" th:href="@{/assets/css/main.css?v={version}(version=${theme.spec.version})}" />
+</th:block>
+</body>
+</html>

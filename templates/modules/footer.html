@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<body>
+<footer class="site-footer" th:fragment="siteFooter">
+  <div class="site-footer__inner">
+    <div>
+      <p class="site-footer__brand">ZJUT创游工坊</p>
+      <p>联系邮箱：<a th:href="'mailto:' + ${theme.config.basic.contact_email}" th:text="${theme.config.basic.contact_email}">contact@zjutdev.games</a></p>
+      <p>技术组：<a th:href="'mailto:' + ${theme.config.basic.tech_email}" th:text="${theme.config.basic.tech_email}">tech@zjutdev.games</a></p>
+      <p>投稿：<a href="mailto:contribute@zjutdev.games">contribute@zjutdev.games</a></p>
+    </div>
+    <div class="site-footer__links">
+      <a th:if="${!#strings.isEmpty(theme.config.basic.github_url)}" th:href="${theme.config.basic.github_url}" target="_blank" rel="noreferrer">GitHub</a>
+      <a th:if="${!#strings.isEmpty(theme.config.basic.bilibili_url)}" th:href="${theme.config.basic.bilibili_url}" target="_blank" rel="noreferrer">B站</a>
+      <a th:if="${!#strings.isEmpty(theme.config.basic.group_url)}" th:href="${theme.config.basic.group_url}" target="_blank" rel="noreferrer">社群</a>
+    </div>
+    <div class="site-footer__meta">
+      <span th:text="${theme.config.footer.copyright}">© 2026 ZJUT创游工坊</span>
+      <span th:if="${!#strings.isEmpty(theme.config.footer.icp)}" th:text="${theme.config.footer.icp}"></span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title th:text="'归档 - ' + ${site.title}">归档 - ZJUT Dev</title>
+  <th:block th:replace="~{modules/head :: headAssets}"></th:block>
+</head>
+<body>
+<th:block th:replace="~{modules/header :: siteHeader}"></th:block>
+<main class="archive" th:with="archivePosts=${postFinder.list(1, 100)}">
+  <section class="archive-hero">
+    <p class="eyebrow">Archives</p>
+    <h1>归档</h1>
+  </section>
+  <section class="section">
+    <div class="article-list">
+      <article class="article-card" th:each="post : ${archivePosts.items}">
+        <a th:href="${post.status.permalink}">
+          <img th:src="${!#strings.isEmpty(post.spec.cover) ? post.spec.cover : '/assets/images/default-cover.png'}"
+               data-fallback="/assets/images/default-cover.png"
+               th:alt="${post.spec.title}" loading="lazy" />
+          <div>
+            <time th:text="${#temporals.format(post.spec.publishTime, 'yyyy.MM.dd')}">2026.06.14</time>
+            <h2 th:text="${post.spec.title}">文章标题</h2>
+            <p th:text="${post.status.excerpt}">文章摘要</p>
+          </div>
+        </a>
+      </article>
+    </div>
+  </section>
+</main>
+<th:block th:replace="~{modules/footer :: siteFooter}"></th:block>
+<script th:src="@{/assets/js/main.js?v={version}(version=${theme.spec.version})}"></script>
+</body>
+</html>
